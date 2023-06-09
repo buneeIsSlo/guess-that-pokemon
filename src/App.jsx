@@ -5,9 +5,13 @@ import { Button } from "@kylum/nes-react";
 import { useImmerReducer } from "use-immer";
 
 const POKE_API_URL = "https://pokeapi.co/api/v2/pokemon?limit=1000";
+const MAX_LIVES = 5;
+
 const initalState = {
   firstThousand: [],
   currentQuestion: null,
+  isPlaying: false,
+  lives: MAX_LIVES,
 };
 
 function reducer(draft, action) {
@@ -16,19 +20,23 @@ function reducer(draft, action) {
       draft.firstThousand.push(action.value);
       return;
     case "currentQuestion":
+      draft.lives = MAX_LIVES;
+      draft.isPlaying = true;
       draft.currentQuestion = generateQuestion();
-      console.log(draft.currentQuestion);
       return;
     case "guessed":
       if (draft.currentQuestion.answer === action.value) {
-        console.log("niceooo");
         draft.currentQuestion = generateQuestion();
+      } else {
+        draft.lives -= 1;
+        if (draft.lives < 1) draft.isPlaying = false;
+        console.log(draft.lives);
       }
   }
 
   function generateQuestion() {
     const fourRandomPokemons = retrieveRandomFour();
-    console.log(fourRandomPokemons);
+    // console.log(fourRandomPokemons);
 
     const randomNum = Math.floor(Math.random() * 4);
     const pokemonToGuess = fourRandomPokemons[randomNum];
@@ -94,15 +102,16 @@ function App() {
       <h1>
         Guess <br></br>that<br></br> Pokemon
       </h1>
-      <Button
-        onClick={() => {
-          dispatch({ type: "currentQuestion" });
-          console.log(gameState.firstThousand.length);
-        }}
-      >
-        Generate question
-      </Button>
-      {gameState.currentQuestion && (
+      {!gameState.isPlaying && (
+        <Button
+          onClick={() => {
+            dispatch({ type: "currentQuestion" });
+          }}
+        >
+          PLAY GAME
+        </Button>
+      )}
+      {gameState.isPlaying && gameState.currentQuestion && (
         <div className="question">
           <div className="pokemon__wrapper">
             <img
