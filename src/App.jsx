@@ -4,10 +4,11 @@ import { useEffect, useState } from "react";
 import { Button } from "@kylum/nes-react";
 import { useImmerReducer } from "use-immer";
 
-const POKE_API_URL = "https://pokeapi.co/api/v2/pokemon?limit=10";
+// const POKE_API_URL = "https://pokeapi.co/api/v2/pokemon?limit=10";
 const MAX_LIVES = 5;
 
 const initalState = {
+  uniqueNums: new Set(),
   pokemonData: [],
   firstThousand: [],
   currentQuestion: null,
@@ -17,13 +18,10 @@ const initalState = {
 
 function reducer(draft, action) {
   switch (action.type) {
-    case "storeFirstThousand":
-      draft.firstThousand.push(action.value);
-      return;
     case "currentQuestion":
       draft.lives = MAX_LIVES;
       draft.isPlaying = true;
-      draft.currentQuestion = generateQuestion();
+      // draft.currentQuestion = generateQuestion();
       return;
     case "guessed":
       if (draft.currentQuestion.answer === action.value) {
@@ -35,8 +33,23 @@ function reducer(draft, action) {
       }
       return;
     case "getPokemonData":
-      draft.pokemonData.push(action.value);
+      draft.pokemonData = action.value;
+      pickRandom60(draft.pokemonData);
       return;
+    case "addPokemon":
+      draft.pokemonData = [...draft.pokemonData, action.value];
+  }
+
+  function pickRandom60(array) {
+    const random60 = new Set();
+    const maxPokemons = 4;
+
+    while (random60.size < maxPokemons) {
+      const randomNum = Math.floor(Math.random() * array.length);
+      random60.add(array[randomNum]);
+    }
+
+    console.log(...random60);
   }
 
   function generateQuestion() {
@@ -60,7 +73,7 @@ function reducer(draft, action) {
     while (randomFour.size < numOfOptions) {
       const randomNum = Math.floor(Math.random() * draft.firstThousand.length);
       randomFour.add(draft.firstThousand[randomNum]);
-      draft.firstThousand.splice(randomNum, 1);
+      // draft.firstThousand.splice(randomNum, 1);
     }
 
     return [...randomFour].map((str) => {
@@ -73,99 +86,39 @@ function reducer(draft, action) {
 function App() {
   const [gameState, dispatch] = useImmerReducer(reducer, initalState);
 
-  // useEffect(() => {
-  //   const reqController = new AbortController();
+  useEffect(() => {
+    const randomUniqueNums = init();
+    const pokemonData = [];
+    let it = 0;
 
-  //   async function fetchFirstThousand() {
-  //     try {
-  //       const API = await fetch(POKE_API_URL, { signal: reqController.signal });
-  //       const response = await API.json();
-  //       const pokemonURLs = await response.results;
+    randomUniqueNums.forEach(async (num) => {
+      const response = await fetch(`https://pokeapi.co/api/v2/pokemon/${num}`);
+      const data = await response.json();
+      const { name, sprites } = data;
 
-  //       pokemonURLs.map(async (res) => {
-  //         const data = await fetch(`${res.url}`);
-  //         let { name, sprites } = await data.json();
+      dispatch({ type: "addPokemon", value: [name, sprites.front_default] });
+      it += 1;
+    });
 
-  //         dispatch({
-  //           type: "storeFirstThousand",
-  //           value: name + "@" + sprites.front_default,
-  //         });
-  //       });
-  //     } catch {
-  //       console.log("Error");
-  //     }
-  //   }
+    console.log(it);
+  }, []);
 
-  //   fetchFirstThousand();
-  //   return () => {
-  //     reqController.abort();
-  //   };
-  // }, []);
+  function init() {
+    const { uniqueNums } = gameState;
+    const myNums = [];
+    let NUMS_ADDED = 60;
 
-  function newFetch() {
-    const pokeURLs = JSON.parse(localStorage.getItem("pokeURLs"));
+    while (NUMS_ADDED > 0) {
+      const randomNum = Math.floor(Math.random() * 1000 + 1);
 
-    if (pokeURLs) {
-      dispatch({ type: "getPokemonData", value: pokeURLs });
-      console.log(pokeURLs);
-      pickRandom60();
-      return;
+      if (uniqueNums.has(randomNum)) continue;
+      uniqueNums.add(randomNum);
+      myNums.push(randomNum);
+      NUMS_ADDED--;
     }
 
-    useEffect(() => {
-      const reqController = new AbortController();
-
-      async function getPokemons() {
-        try {
-          const API = await fetch(POKE_API_URL, {
-            signal: reqController.signal,
-          });
-          const response = await API.json();
-          console.log(response);
-          const pokeU = await response.results;
-
-          localStorage.setItem("pokeURLs", JSON.stringify(pokeU));
-          dispatch({ type: "getPokemonData", value: pokeU });
-          pickRandom60();
-        } catch {
-          console.log("Error");
-        }
-      }
-
-      getPokemons();
-      return () => {
-        reqController.abort();
-      };
-    }, []);
+    return myNums;
   }
-
-  function pickRandom60() {
-    const random60 = new Set();
-    const maxPokemons = 5;
-
-    while (random60.size <= maxPokemons) {
-      const randomNum = Math.floor(
-        Math.random() * gameState.pokemonData.length
-      );
-      console.log(gameState.pokemonData);
-      random60.add(gameState.pokemonData[randomNum]["name"]);
-      gameState.pokemonData.splice(randomNum, 1);
-    }
-
-    // [...random60].map(async (res) => {
-    //   const data = await fetch(`${res.url}`);
-    //   let { name, sprites } = await data.json();
-
-    //   dispatch({
-    //     type: "storeFirstThousand",
-    //     value: name + "@" + sprites.front_default,
-    //   });
-    // });
-
-    // console.log(random60);
-  }
-
-  newFetch();
 
   return (
     <>
@@ -175,7 +128,9 @@ function App() {
       {!gameState.isPlaying && (
         <Button
           onClick={() => {
-            dispatch({ type: "currentQuestion" });
+            // dispatch({ type: "currentQuestion" });
+            // pickRandom60();
+            console.log(gameState.pokemonData);
           }}
         >
           PLAY GAME
@@ -209,41 +164,3 @@ function App() {
 }
 
 export default App;
-
-/*
-  const endpoint = 'https://pokeapi.co/api/v2/pokemon?limit=1000';
-const numPokemons = 50;
-const pokemons = [];
-
-// Fetch list of all pokemons
-fetch(endpoint)
-  .then(response => response.json())
-  .then(data => {
-    // Randomly select 50 pokemons
-    const randomIndices = new Set();
-    while (randomIndices.size < numPokemons) {
-      randomIndices.add(Math.floor(Math.random() * data.results.length));
-    }
-    const randomPokemons = Array.from(randomIndices).map(i => data.results[i]);
-
-    // Fetch name and sprite for each pokemon
-    return Promise.all(randomPokemons.map(pokemon => {
-      return fetch(pokemon.url)
-        .then(response => response.json())
-        .then(data => {
-          pokemons.push({
-            name: data.name,
-            sprite: data.sprites.front_default
-          });
-        });
-    }));
-  })
-  .then(() => {
-    // Do something with the pokemons array
-    console.log(pokemons);
-  })
-  .catch(error => {
-    console.error(error);
-  });
-  
- */
