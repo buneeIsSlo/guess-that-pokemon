@@ -1,166 +1,119 @@
 import "@fontsource/press-start-2p";
 import "nes.css/css/nes.min.css";
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import { Button } from "@kylum/nes-react";
+import { enableMapSet } from "immer";
 import { useImmerReducer } from "use-immer";
 
-// const POKE_API_URL = "https://pokeapi.co/api/v2/pokemon?limit=10";
+enableMapSet();
 const MAX_LIVES = 5;
-
 const initalState = {
-  uniqueNums: new Set(),
+  fetchedNums: new Set(),
+  fetchCount: 0,
   pokemonData: [],
-  firstThousand: [],
   currentQuestion: null,
   isPlaying: false,
   lives: MAX_LIVES,
 };
 
-function reducer(draft, action) {
+const reducer = (draft, action) => {
   switch (action.type) {
-    case "currentQuestion":
-      draft.lives = MAX_LIVES;
-      draft.isPlaying = true;
-      // draft.currentQuestion = generateQuestion();
-      return;
-    case "guessed":
-      if (draft.currentQuestion.answer === action.value) {
-        draft.currentQuestion = generateQuestion();
-      } else {
-        draft.lives -= 1;
-        if (draft.lives < 1) draft.isPlaying = false;
-        console.log(draft.lives);
-      }
-      return;
-    case "getPokemonData":
-      draft.pokemonData = action.value;
-      pickRandom60(draft.pokemonData);
-      return;
     case "addPokemon":
       draft.pokemonData = [...draft.pokemonData, action.value];
-  }
-
-  function pickRandom60(array) {
-    const random60 = new Set();
-    const maxPokemons = 4;
-
-    while (random60.size < maxPokemons) {
-      const randomNum = Math.floor(Math.random() * array.length);
-      random60.add(array[randomNum]);
-    }
-
-    console.log(...random60);
+      break;
+    case "startGame":
+      draft.isPlaying = true;
+      draft.currentQuestion = generateQuestion();
+      break;
+    case "logState":
+      console.log(draft);
+      break;
   }
 
   function generateQuestion() {
-    const fourRandomPokemons = retrieveRandomFour();
-    // console.log(fourRandomPokemons);
+    console.log(draft.pokemonData.length);
 
-    const randomNum = Math.floor(Math.random() * 4);
-    const pokemonToGuess = fourRandomPokemons[randomNum];
-
-    return {
-      pokemonToGuess: pokemonToGuess[1],
-      options: fourRandomPokemons.map((pokemonArr) => pokemonArr[0]),
-      answer: pokemonToGuess[0],
-    };
-  }
-
-  function retrieveRandomFour() {
-    const randomFour = new Set();
-    const numOfOptions = 4;
-
-    while (randomFour.size < numOfOptions) {
-      const randomNum = Math.floor(Math.random() * draft.firstThousand.length);
-      randomFour.add(draft.firstThousand[randomNum]);
-      // draft.firstThousand.splice(randomNum, 1);
+    if(draft.pokemonData.length <= 68) {
+      draft.fetchCount += 1;
     }
 
-    return [...randomFour].map((str) => {
-      const [pokemonName, pokemonSprite] = str.split("@");
-      return [pokemonName, pokemonSprite];
-    });
+    if (draft.currentQuestion) {
+      draft.pokemonData = draft.pokemonData.slice(4, draft.pokemonData.length);
+    }
+
+    const tempRandom = Math.floor(Math.random() * 4);
+    const fourOptions = draft.pokemonData.slice(0, 4);
+    return {
+      sprite: fourOptions[tempRandom].sprite,
+      answer: fourOptions[tempRandom].name,
+      options: fourOptions
+    }
   }
 }
 
-function App() {
-  const [gameState, dispatch] = useImmerReducer(reducer, initalState);
+const App = () => {
+  const [state, dispatch] = useImmerReducer(reducer, initalState);
 
   useEffect(() => {
-    const randomUniqueNums = init();
-    const pokemonData = [];
-    let it = 0;
+    const randomUniqueNums = randomNums();
 
-    randomUniqueNums.forEach(async (num) => {
-      const response = await fetch(`https://pokeapi.co/api/v2/pokemon/${num}`);
-      const data = await response.json();
-      const { name, sprites } = data;
-
-      dispatch({ type: "addPokemon", value: [name, sprites.front_default] });
-      it += 1;
-    });
-
-    console.log(it);
-  }, []);
-
-  function init() {
-    const { uniqueNums } = gameState;
-    const myNums = [];
-    let NUMS_ADDED = 60;
-
-    while (NUMS_ADDED > 0) {
-      const randomNum = Math.floor(Math.random() * 1000 + 1);
-
-      if (uniqueNums.has(randomNum)) continue;
-      uniqueNums.add(randomNum);
-      myNums.push(randomNum);
-      NUMS_ADDED--;
+    async function go() {
+      for (const num of randomUniqueNums) {
+        const response = await fetch(`https://pokeapi.co/api/v2/pokemon/${num}`);
+        const data = await response.json();
+        const { name, sprites } = data;
+        dispatch({ type: "addPokemon", value: { name, sprite: sprites.front_default } });
+      }
     }
 
-    return myNums;
+    go();
+  }, [state.fetchCount]);
+
+function randomNums() {
+  const maxRange = 500;
+  const maxRandomNums = 40;
+  const { fetchedNums } = state;
+  const nums = [];
+
+  while (nums.length < maxRandomNums) {
+    const num = Math.floor(Math.random() * maxRange) + 1;
+
+    if (fetchedNums.has(num)) continue;
+    fetchedNums.add(num);
+    nums.push(num);
+  }
+
+  return nums;
+}
+
+  const onClickPlay = () => {
+    dispatch({ type: "startGame" });
   }
 
   return (
-    <>
-      <h1>
-        Guess <br></br>that<br></br> Pokemon
-      </h1>
-      {!gameState.isPlaying && (
-        <Button
-          onClick={() => {
-            // dispatch({ type: "currentQuestion" });
-            // pickRandom60();
-            console.log(gameState.pokemonData);
-          }}
-        >
-          PLAY GAME
-        </Button>
+    <div id="game">
+      <h1>GTP</h1>
+      {true && (
+        <Button onClick={onClickPlay}>PLAY GAME</Button>
       )}
-      {gameState.isPlaying && gameState.currentQuestion && (
-        <div className="question">
-          <div className="pokemon__wrapper">
-            <img
-              src={gameState.currentQuestion.pokemonToGuess}
-              alt=""
-              className="pokemon__sprite"
-            />
-          </div>
-          <div className="options">
-            {gameState.currentQuestion.options.map((opt, i) => {
-              return (
-                <Button
-                  onClick={() => dispatch({ type: "guessed", value: opt })}
-                  key={i}
-                >
-                  {opt}
-                </Button>
-              );
-            })}
-          </div>
-        </div>
+      {state.isPlaying && (
+        <h2>Guess the right answer</h2>
       )}
-    </>
-  );
+      {state.currentQuestion && (
+        <>
+          <img src={state.currentQuestion.sprite} alt="" />
+          {state.currentQuestion.options.map((opt) => (
+            <>
+              <br />
+              <Button>{opt.name}</Button>
+            </>
+          ))}
+          <br />
+          <p>Answer: {state.currentQuestion.answer}</p>
+        </>
+      )}
+    </div>
+  )
 }
 
 export default App;
