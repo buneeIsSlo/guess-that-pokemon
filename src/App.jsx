@@ -6,7 +6,10 @@ import { enableMapSet } from "immer";
 import { useImmerReducer } from "use-immer";
 
 enableMapSet();
+
 const MAX_LIVES = 5;
+const POKEMONS_RANGE = 500;
+const MAX_POKEMONS = 40;
 const initalState = {
   fetchedNums: new Set(),
   fetchCount: 0,
@@ -25,15 +28,16 @@ const reducer = (draft, action) => {
       draft.isPlaying = true;
       draft.currentQuestion = generateQuestion();
       break;
+    case "addFetched":
+      draft.fetchedNums.add(action.value);
+      break;
     case "logState":
-      console.log(draft);
+      console.log(draft.fetchedNums);
       break;
   }
 
   function generateQuestion() {
-    console.log(draft.pokemonData.length);
-
-    if(draft.pokemonData.length <= 68) {
+    if (draft.pokemonData.length <= 68) {
       draft.fetchCount += 1;
     }
 
@@ -53,11 +57,26 @@ const reducer = (draft, action) => {
 
 const App = () => {
   const [state, dispatch] = useImmerReducer(reducer, initalState);
+  const getRandomNums = () => {
+    const { fetchedNums } = state;
+    const nums = [];
+
+    while (nums.length < MAX_POKEMONS) {
+      const num = Math.floor(Math.random() * POKEMONS_RANGE) + 1;
+      if (!fetchedNums.has(num)) {
+        nums.push(num);
+        dispatch({ type: "addFetched", value: num });
+      }
+    }
+
+    return nums;
+  }
+
 
   useEffect(() => {
-    const randomUniqueNums = randomNums();
+    const randomUniqueNums = getRandomNums();
 
-    async function go() {
+    async function fetchPokemons() {
       for (const num of randomUniqueNums) {
         const response = await fetch(`https://pokeapi.co/api/v2/pokemon/${num}`);
         const data = await response.json();
@@ -66,25 +85,11 @@ const App = () => {
       }
     }
 
-    go();
+    fetchPokemons();
   }, [state.fetchCount]);
 
-function randomNums() {
-  const maxRange = 500;
-  const maxRandomNums = 40;
-  const { fetchedNums } = state;
-  const nums = [];
 
-  while (nums.length < maxRandomNums) {
-    const num = Math.floor(Math.random() * maxRange) + 1;
 
-    if (fetchedNums.has(num)) continue;
-    fetchedNums.add(num);
-    nums.push(num);
-  }
-
-  return nums;
-}
 
   const onClickPlay = () => {
     dispatch({ type: "startGame" });
