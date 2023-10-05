@@ -107,11 +107,11 @@ const App = () => {
       {state.currentQuestion && (
         <>
           <img src={state.currentQuestion.sprite} alt="" />
-          {state.currentQuestion.options.map((opt) => (
-            <>
+          {state.currentQuestion.options.map((opt, i) => (
+            <div key={i}>
               <br />
               <Button>{opt.name}</Button>
-            </>
+            </div>
           ))}
           <br />
           <p>Answer: {state.currentQuestion.answer}</p>
