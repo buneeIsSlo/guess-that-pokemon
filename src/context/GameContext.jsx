@@ -4,6 +4,8 @@ import { MAX_LIVES, INITIAL_STATE } from "../utils/constants";
 
 const reducer = (draft, action) => {
   switch (action.type) {
+    case "doneFetching": 
+      draft.doneFetching = true;
     case "addPokemon":
       draft.pokemonData = [...draft.pokemonData, action.value];
       break;

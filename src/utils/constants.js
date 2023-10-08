@@ -2,6 +2,7 @@ const MAX_LIVES = 5;
 const POKEMONS_RANGE = 500;
 const MAX_POKEMONS = 40;
 const INITIAL_STATE = {
+  doneFetching: false,
   fetchedNums: new Set(),
   fetchCount: 0,
   pokemonData: [],
