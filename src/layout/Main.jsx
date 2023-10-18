@@ -1,6 +1,6 @@
 import "@fontsource/press-start-2p";
 import "nes.css/css/nes.min.css";
-import { useEffect } from "react";
+import { useState, useEffect } from "react";
 import useGameContext from "../hooks/useGameContext";
 import { Button } from "@kylum/nes-react";
 import { enableMapSet } from "immer";
@@ -8,13 +8,38 @@ import { POKEMONS_RANGE, MAX_POKEMONS } from "../utils/constants";
 
 enableMapSet();
 
+const Option = ({ optName, answer }) => {
+  const [optionStatus, setOptionStatus] = useState("normal");
+  
+  const handleClick = () => {
+    if (answer === optName) {
+      setOptionStatus("success");
+    } else {
+      setOptionStatus("error");
+    }
+  };
+  
+  useEffect(() => {
+    setOptionStatus("normal");
+  }, [answer]);
+  
+  return (
+    <Button 
+      type={optionStatus}
+      onClick={handleClick}
+    >
+      {optName}
+    </Button>
+  );
+};
+
 const Main = () => {
   const { state, dispatch } = useGameContext();
-
+  
   const getRandomNums = () => {
     const { fetchedNums } = state;
     const nums = [];
-
+    
     while (nums.length < MAX_POKEMONS) {
       const num = Math.floor(Math.random() * POKEMONS_RANGE) + 1;
       if (!fetchedNums.has(num)) {
@@ -22,12 +47,12 @@ const Main = () => {
         dispatch({ type: "addFetched", value: num });
       }
     }
-
+    
     return nums;
   };
-
+  
   useEffect(() => {
-    async function fetchPokemons() {
+    const fetchPokemons = async () => {
       try {
         const randomUniqueNums = getRandomNums();
         for (const num of randomUniqueNums) {
@@ -36,21 +61,19 @@ const Main = () => {
           const { name, sprites } = data;
           dispatch({ type: "addPokemon", value: { name, sprite: sprites.front_default } });
         }
-      } 
-      catch (error) {
+      } catch (error) {
         console.error("Error fetching pokemons:", error);
-      } 
-      finally {
-        console.log("bro, hold up");
-        if(!state.isPlaying) {
-          dispatch({type: "doneFetching"});
+      } finally {
+        console.log("Finished making requests");
+        if (!state.isPlaying) {
+          dispatch({ type: "doneFetching" });
         }
       }
     };
-
+    
     fetchPokemons();
   }, [state.fetchCount]);
-
+  
   return (
     <div>
       {state.currentQuestion && (
@@ -59,7 +82,7 @@ const Main = () => {
           {state.currentQuestion.options.map((opt, i) => (
             <div key={i}>
               <br />
-              <Button>{opt.name}</Button>
+              <Option optName={opt.name} answer={state.currentQuestion.answer} />
             </div>
           ))}
           <br />
