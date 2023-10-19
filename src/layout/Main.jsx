@@ -18,11 +18,7 @@ const Option = ({ optName, answer }) => {
       setOptionStatus("error");
     }
   };
-  
-  useEffect(() => {
-    setOptionStatus("normal");
-  }, [answer]);
-  
+ 
   return (
     <Button 
       type={optionStatus}
@@ -80,7 +76,7 @@ const Main = () => {
         <>
           <img src={state.currentQuestion.sprite} alt="" />
           {state.currentQuestion.options.map((opt, i) => (
-            <div key={i}>
+            <div key={`${opt.name}-${i}`}>
               <br />
               <Option optName={opt.name} answer={state.currentQuestion.answer} />
             </div>
