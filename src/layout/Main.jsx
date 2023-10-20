@@ -1,41 +1,18 @@
-import "@fontsource/press-start-2p";
-import "nes.css/css/nes.min.css";
-import { useState, useEffect } from "react";
+import { useEffect } from "react";
 import useGameContext from "../hooks/useGameContext";
-import { Button } from "@kylum/nes-react";
 import { enableMapSet } from "immer";
 import { POKEMONS_RANGE, MAX_POKEMONS } from "../utils/constants";
+import Question from "../components/Question";
 
 enableMapSet();
 
-const Option = ({ optName, answer }) => {
-  const [optionStatus, setOptionStatus] = useState("normal");
-  
-  const handleClick = () => {
-    if (answer === optName) {
-      setOptionStatus("success");
-    } else {
-      setOptionStatus("error");
-    }
-  };
- 
-  return (
-    <Button 
-      type={optionStatus}
-      onClick={handleClick}
-    >
-      {optName}
-    </Button>
-  );
-};
-
 const Main = () => {
   const { state, dispatch } = useGameContext();
-  
+
   const getRandomNums = () => {
     const { fetchedNums } = state;
     const nums = [];
-    
+
     while (nums.length < MAX_POKEMONS) {
       const num = Math.floor(Math.random() * POKEMONS_RANGE) + 1;
       if (!fetchedNums.has(num)) {
@@ -43,10 +20,10 @@ const Main = () => {
         dispatch({ type: "addFetched", value: num });
       }
     }
-    
+
     return nums;
   };
-  
+
   useEffect(() => {
     const fetchPokemons = async () => {
       try {
@@ -66,24 +43,18 @@ const Main = () => {
         }
       }
     };
-    
+
     fetchPokemons();
   }, [state.fetchCount]);
-  
+
   return (
     <div>
       {state.currentQuestion && (
-        <>
-          <img src={state.currentQuestion.sprite} alt="" />
-          {state.currentQuestion.options.map((opt, i) => (
-            <div key={`${opt.name}-${i}`}>
-              <br />
-              <Option optName={opt.name} answer={state.currentQuestion.answer} />
-            </div>
-          ))}
-          <br />
-          <p>Answer: {state.currentQuestion.answer}</p>
-        </>
+        <Question
+          sprite={state.currentQuestion.sprite}
+          options={state.currentQuestion.options}
+          answer={state.currentQuestion.answer}
+        />
       )}
     </div>
   );
