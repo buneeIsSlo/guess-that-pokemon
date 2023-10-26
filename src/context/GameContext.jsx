@@ -1,6 +1,6 @@
 import { createContext } from "react";
 import { useImmerReducer } from "use-immer";
-import { MAX_LIVES, INITIAL_STATE } from "../utils/constants";
+import { INITIAL_STATE } from "../utils/constants";
 
 const reducer = (draft, action) => {
   switch (action.type) {
@@ -15,6 +15,13 @@ const reducer = (draft, action) => {
       break;
     case "addFetched":
       draft.fetchedNums.add(action.value);
+      break;
+    case "guessedAnswer":
+      if(action.value) {
+        console.log("nice!");
+        draft.currentQuestion = generateQuestion();
+      }
+      else console.log("try again!");
       break;
     case "logState":
       console.log(draft.fetchedNums);

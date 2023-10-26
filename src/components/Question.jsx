@@ -1,14 +1,20 @@
 import { useState } from "react";
+import useGameContext from "../hooks/useGameContext";
 import { Button } from "@kylum/nes-react";
 
 const Option = ({ optName, answer }) => {
+    const { dispatch } = useGameContext();
     const [optionStatus, setOptionStatus] = useState(null);
 
     const handleClick = () => {
         if (answer === optName) {
             setOptionStatus("success");
+            setTimeout(() => {
+                dispatch({ type: "guessedAnswer", value: true });
+            }, 300);
         } else {
             setOptionStatus("error");
+            dispatch({ type: "guessedAnswer", value: false });
         }
     };
 
@@ -22,7 +28,7 @@ const Option = ({ optName, answer }) => {
     );
 };
 
-const Question = ({sprite, options, answer}) => {
+const Question = ({ sprite, options, answer }) => {
 
     return (
         <>
