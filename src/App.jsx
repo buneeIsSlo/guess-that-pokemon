@@ -3,6 +3,7 @@ import "nes.css/css/nes.min.css";
 import useGameContext from "./hooks/useGameContext";
 import { Button } from "@kylum/nes-react";
 import Main from "./layout/Main";
+import Header from "./layout/Header";
 
 const Loading = () => {
   return (
@@ -20,7 +21,7 @@ const App = () => {
 
   return (
     <div id="game">
-      <h1>GTP</h1>
+      <Header />
       {!state.doneFetching && (<Loading />)}
       {state.doneFetching && (
         <Button onClick={onClickPlay}>PLAY GAME</Button>

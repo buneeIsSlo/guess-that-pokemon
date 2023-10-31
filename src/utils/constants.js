@@ -1,6 +1,7 @@
 const MAX_LIVES = 5;
 const POKEMONS_RANGE = 500;
 const MAX_POKEMONS = 40;
+const ROUND_SCORE = 40;
 const INITIAL_STATE = {
   doneFetching: false,
   fetchedNums: new Set(),
@@ -9,11 +10,14 @@ const INITIAL_STATE = {
   currentQuestion: null,
   isPlaying: false,
   lives: MAX_LIVES,
+  roundScore: ROUND_SCORE,
+  mainScore: 0,
 };
 
 export {
     MAX_LIVES,
     POKEMONS_RANGE,
     MAX_POKEMONS,
+    ROUND_SCORE,
     INITIAL_STATE
 };

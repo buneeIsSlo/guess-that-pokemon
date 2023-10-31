@@ -1,6 +1,6 @@
 import { createContext } from "react";
 import { useImmerReducer } from "use-immer";
-import { INITIAL_STATE } from "../utils/constants";
+import { INITIAL_STATE, ROUND_SCORE } from "../utils/constants";
 
 const reducer = (draft, action) => {
   switch (action.type) {
@@ -18,10 +18,14 @@ const reducer = (draft, action) => {
       break;
     case "guessedAnswer":
       if(action.value) {
-        console.log("nice!");
+        draft.mainScore += draft.roundScore;
+        console.log({round: draft.roundScore, main: draft.mainScore});
+        draft.roundScore = ROUND_SCORE;
         draft.currentQuestion = generateQuestion();
       }
-      else console.log("try again!");
+      else {
+        draft.roundScore -= 10;
+      }
       break;
     case "logState":
       console.log(draft.fetchedNums);
