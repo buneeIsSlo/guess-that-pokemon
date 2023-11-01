@@ -15,17 +15,18 @@ const Loading = () => {
 
 const App = () => {
   const { state, dispatch } = useGameContext();
+
   const onClickPlay = () => {
     dispatch({ type: "startGame" });
   };
 
   return (
-    <div id="game">
-      <Header />
+    <div className="game">
       {!state.doneFetching && (<Loading />)}
       {state.doneFetching && (
         <Button onClick={onClickPlay}>PLAY GAME</Button>
       )}
+      {state.isPlaying && (<Header />)}
       <Main />
     </div>
   );

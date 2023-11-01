@@ -30,9 +30,11 @@ const Main = () => {
         const randomUniqueNums = getRandomNums();
         for (const num of randomUniqueNums) {
           const response = await fetch(`https://pokeapi.co/api/v2/pokemon/${num}`);
+          if(!response.ok) console.log("reason!!");
           const data = await response.json();
           const { name, sprites } = data;
           dispatch({ type: "addPokemon", value: { name, sprite: sprites.front_default } });
+          // console.log({ name, sprite: sprites.front_default });
         }
       } catch (error) {
         console.error("Error fetching pokemons:", error);
@@ -48,7 +50,7 @@ const Main = () => {
   }, [state.fetchCount]);
 
   return (
-    <div>
+    <main id="main">
       {state.currentQuestion && (
         <Question
           sprite={state.currentQuestion.sprite}
@@ -56,7 +58,7 @@ const Main = () => {
           answer={state.currentQuestion.answer}
         />
       )}
-    </div>
+    </main>
   );
 };
 

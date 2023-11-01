@@ -1,3 +1,4 @@
+import "./css/question.css";
 import { useState } from "react";
 import useGameContext from "../hooks/useGameContext";
 import { Button } from "@kylum/nes-react";
@@ -36,17 +37,20 @@ const Option = ({ optName, answer }) => {
 const Question = ({ sprite, options, answer }) => {
 
     return (
-        <>
-            <img src={sprite} alt="pokemon" />
-            {options.map((opt, i) => (
-                <div key={`${opt.name}-${i}`}>
-                    <br />
-                    <Option optName={opt.name} answer={answer} />
-                </div>
-            ))}
+        <div className="question">
+            <div className="question-sprite">
+                <img src={sprite} alt="pokemon" />
+            </div>
+            <div className="question-options">
+                {options.map((opt, i) => (
+                    <div key={`${opt.name}-${i}`}>
+                        <Option optName={opt.name} answer={answer} />
+                    </div>
+                ))}
+            </div>
             <br />
             <p>Answer: {answer}</p>
-        </>
+        </div>
     );
 };
 
