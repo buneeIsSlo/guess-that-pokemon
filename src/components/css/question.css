@@ -2,8 +2,8 @@
     /* background-color: blue; */
     width: 60%;
     max-width: 780px;
-    height: 100%;
     margin-inline: auto;
+    align-self: flex-end;
 }
 
 .question-sprite {

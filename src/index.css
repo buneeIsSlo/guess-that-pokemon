@@ -17,11 +17,3 @@ body {
     /* display: flex;
     flex-direction: column; */
 }
-
-#main {
-    height: 100%;
-    max-height: 80vh;
-    display: flex;
-    just-content: center;
-    align-items: center;    
-}

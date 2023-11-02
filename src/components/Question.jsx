@@ -37,20 +37,18 @@ const Option = ({ optName, answer }) => {
 const Question = ({ sprite, options, answer }) => {
 
     return (
-        <div className="question">
-            <div className="question-sprite">
-                <img src={sprite} alt="pokemon" />
-            </div>
-            <div className="question-options">
-                {options.map((opt, i) => (
-                    <div key={`${opt.name}-${i}`}>
-                        <Option optName={opt.name} answer={answer} />
-                    </div>
-                ))}
-            </div>
-            <br />
-            <p>Answer: {answer}</p>
+      <div className="question">
+        <div className="question-sprite">
+          <img src={sprite} alt="pokemon" />
         </div>
+        <div className="question-options">
+          {options.map((opt, i) => (
+            <div key={`${opt.name}-${i}`}>
+              <Option optName={opt.name} answer={answer} />
+            </div>
+          ))}
+        </div>
+      </div>
     );
 };
 

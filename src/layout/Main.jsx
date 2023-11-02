@@ -1,3 +1,4 @@
+import "./css/main.css";
 import { useEffect } from "react";
 import useGameContext from "../hooks/useGameContext";
 import { enableMapSet } from "immer";
@@ -29,11 +30,16 @@ const Main = () => {
       try {
         const randomUniqueNums = getRandomNums();
         for (const num of randomUniqueNums) {
-          const response = await fetch(`https://pokeapi.co/api/v2/pokemon/${num}`);
-          if(!response.ok) console.log("reason!!");
+          const response = await fetch(
+            `https://pokeapi.co/api/v2/pokemon/${num}`
+          );
+          if (!response.ok) console.log("reason!!");
           const data = await response.json();
           const { name, sprites } = data;
-          dispatch({ type: "addPokemon", value: { name, sprite: sprites.front_default } });
+          dispatch({
+            type: "addPokemon",
+            value: { name, sprite: sprites.front_default },
+          });
           // console.log({ name, sprite: sprites.front_default });
         }
       } catch (error) {

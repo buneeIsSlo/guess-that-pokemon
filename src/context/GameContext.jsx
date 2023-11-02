@@ -4,9 +4,10 @@ import { INITIAL_STATE, ROUND_SCORE } from "../utils/constants";
 
 const reducer = (draft, action) => {
   switch (action.type) {
-    case "doneFetching": 
+    case "doneFetching":
       draft.doneFetching = true;
     case "addPokemon":
+      if (action.value === undefined) return;
       draft.pokemonData = [...draft.pokemonData, action.value];
       break;
     case "startGame":
@@ -17,14 +18,20 @@ const reducer = (draft, action) => {
       draft.fetchedNums.add(action.value);
       break;
     case "guessedAnswer":
-      if(action.value) {
+      if (action.value) {
         draft.mainScore += draft.roundScore;
-        console.log({round: draft.roundScore, main: draft.mainScore});
+        // console.log({round: draft.roundScore, main: draft.mainScore});
         draft.roundScore = ROUND_SCORE;
         draft.currentQuestion = generateQuestion();
-      }
-      else {
+      } else {
         draft.roundScore -= 10;
+      }
+      break;
+    case "decreaseTime":
+      if (draft.timeRemaining <= 0) {
+        draft.isPlaying = false;
+      } else {
+        draft.timeRemaining--;
       }
       break;
     case "logState":
@@ -43,11 +50,12 @@ const reducer = (draft, action) => {
 
     const tempRandom = Math.floor(Math.random() * 4);
     const fourOptions = draft.pokemonData.slice(0, 4);
+    console.log(fourOptions);
     return {
       sprite: fourOptions[tempRandom].sprite,
       answer: fourOptions[tempRandom].name,
-      options: fourOptions
-    }
+      options: fourOptions,
+    };
   }
 };
 
