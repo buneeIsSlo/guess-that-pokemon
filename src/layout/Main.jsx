@@ -4,6 +4,8 @@ import useGameContext from "../hooks/useGameContext";
 import { enableMapSet } from "immer";
 import { POKEMONS_RANGE, MAX_POKEMONS } from "../utils/constants";
 import Question from "../components/Question";
+import Loader from "../components/Loader";
+import StartModal from "../components/StartModal";
 
 enableMapSet();
 
@@ -40,9 +42,9 @@ const Main = () => {
             type: "addPokemon",
             value: { name, sprite: sprites.front_default },
           });
-          // console.log({ name, sprite: sprites.front_default });
         }
       } catch (error) {
+        a;
         console.error("Error fetching pokemons:", error);
       } finally {
         console.log("Finished making requests");
@@ -57,7 +59,9 @@ const Main = () => {
 
   return (
     <main id="main">
-      {state.currentQuestion && (
+      {!state.doneFetching && <Loader />}
+      {state.doneFetching && !state.isPlaying && <StartModal />}
+      {state.currentQuestion && state.isPlaying && (
         <Question
           sprite={state.currentQuestion.sprite}
           options={state.currentQuestion.options}

@@ -3,8 +3,11 @@ import { useEffect, useRef } from "react";
 import useGameContext from "../hooks/useGameContext";
 
 const ClockIcon = () => {
+  const { state } = useGameContext();
+
   return (
     <svg
+      className={state.isPlaying ? "animate-spin" : ""}
       width="24"
       height="24"
       viewBox="0 0 24 24"

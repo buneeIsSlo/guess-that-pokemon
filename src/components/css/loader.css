@@ -1,0 +1,19 @@
+.loader {
+    /* outline: 2px solid yellow; */
+    align-self: center;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.loader img {
+    max-width: 50%;
+    margin-inline: auto;
+    image-rendering: pixelated;
+    -webkit-transform: scaleX(-1);
+    transform: scaleX(-1);
+}
+
+.loader p {
+    text-align: center;
+}
