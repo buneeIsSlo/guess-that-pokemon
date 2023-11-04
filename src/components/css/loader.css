@@ -1,19 +1,30 @@
 .loader {
-    /* outline: 2px solid yellow; */
-    align-self: center;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
+  /* outline: 2px solid yellow; */
+  align-self: center;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
 }
 
 .loader img {
-    max-width: 50%;
-    margin-inline: auto;
-    image-rendering: pixelated;
-    -webkit-transform: scaleX(-1);
-    transform: scaleX(-1);
+  max-width: 40%;
+  margin-inline: auto;
+  image-rendering: pixelated;
+  -webkit-transform: scaleX(-1);
+  transform: scaleX(-1);
 }
 
 .loader p {
-    text-align: center;
+  text-align: center;
+  margin-top: 1em;
+}
+
+@media (min-width: 768px) {
+  .loader img {
+    max-width: 50%;
+  }
+
+  .loader p {
+    font-size: 18px;
+  }
 }
