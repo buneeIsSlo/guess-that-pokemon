@@ -12,15 +12,33 @@ const StartModal = () => {
   return (
     <div className="start-modal">
       <Container isRounded>
-        <Badge label="rules" type="primary" />
+        <h2>Welcome Trainer</h2>
+        <Badge label="Objective" type="primary" />
         <List
           items={[
-            "Guess that pokemon",
-            "Guess under 60 seconds",
-            "You have 5 lives",
+            "Your goal is to correctly identify as many Pokémon as possible.",
           ]}
         />
-        <Button onClick={onClickPlay}>PLAY GAME</Button>
+        <Badge label="Rules" type="primary" />
+        <List
+          items={[
+            "Check out the Pokémon pic.",
+            "Pick the right Pokémon from the 4 options.",
+            "You've got just 60 seconds, so hustle!",
+            "Be spot on with your choice to get a high score!",
+          ]}
+        />
+        <Badge label="Lives" type="primary" />
+        <List
+          items={[
+            "You start with 5 lives, but each wrong answer costs one. Choose wisely!",
+          ]}
+        />
+        <div className="start-modal-play">
+          <Button onClick={onClickPlay} type="primary">
+            PLAY GAME
+          </Button>
+        </div>
       </Container>
     </div>
   );

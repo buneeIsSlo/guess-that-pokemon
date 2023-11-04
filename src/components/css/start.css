@@ -1,3 +1,21 @@
+.start-modal {
+  max-width: 600px;
+  display: grid;  
+  place-content: center;
+}
+
+.start-modal h2 {
+  text-align: center;
+  padding-bottom: 1em;
+}
+
 .start-modal li {
-    text-align: left;
+  text-align: left;
+  margin-top: 0.5em;
+}
+
+.start-modal-play {
+  display: flex;
+  justify-content: flex-end;
+  padding-block: 0.5em;
 }
