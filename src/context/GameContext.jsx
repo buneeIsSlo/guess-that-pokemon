@@ -24,6 +24,11 @@ const reducer = (draft, action) => {
         draft.roundScore = ROUND_SCORE;
         draft.currentQuestion = generateQuestion();
       } else {
+        draft.lives -= 1;
+        if (draft.lives <= 0) {
+          draft.isPlaying = false;
+          return;
+        }
         draft.roundScore -= 10;
       }
       break;
@@ -64,11 +69,10 @@ const GameContextProvider = ({ children }) => {
   const [state, dispatch] = useImmerReducer(reducer, INITIAL_STATE);
 
   return (
-    <GameContext.Provider value={{state, dispatch}} >
+    <GameContext.Provider value={{ state, dispatch }}>
       {children}
     </GameContext.Provider>
-  )
+  );
 };
 
-export {GameContext, GameContextProvider};
-
+export { GameContext, GameContextProvider };

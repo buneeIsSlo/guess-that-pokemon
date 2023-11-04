@@ -60,13 +60,16 @@ const Main = () => {
   return (
     <main id="main">
       {!state.doneFetching && <Loader />}
-      {state.doneFetching && !state.isPlaying && <StartModal />}
+      {state.doneFetching && !state.currentQuestion && <StartModal />}
       {state.currentQuestion && state.isPlaying && (
         <Question
           sprite={state.currentQuestion.sprite}
           options={state.currentQuestion.options}
           answer={state.currentQuestion.answer}
         />
+      )}
+      {(state.timeRemaining <= 0 || state.lives <= 0) && !state.isPlaying && (
+        <h2>Game Over</h2>
       )}
     </main>
   );

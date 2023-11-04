@@ -1,7 +1,22 @@
 #header {
+  display: grid;
+  grid-template-areas: 
+  "logo menu"
+  "stats stats";
+}
+
+h1 {
+  grid-area: logo;
+}
+
+.header-menu {
+  grid-area: menu;
+}
+
+.header-stats {
   display: flex;
-  justify-content: space-between;
-  align-items: center;
+  gap: 1rem;
+  grid-area: stats;
 }
 
 .timer {
@@ -10,8 +25,26 @@
   gap: 0.5rem;
 }
 
+.timer span {
+  font-size: 1.5rem;
+}
+
+.lives {
+  /* background-color: #fff; */
+  display: flex;
+  gap: 0.5rem;
+}
+
 .animate-spin {
   animation: spin 1s forwards linear infinite;
+}
+
+@media (min-width: 580px) {
+  #header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
 }
 
 @keyframes spin {

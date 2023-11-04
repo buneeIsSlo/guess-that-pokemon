@@ -1,6 +1,7 @@
 import "./css/header.css";
 import { useEffect, useRef } from "react";
 import useGameContext from "../hooks/useGameContext";
+import { Icon } from "@kylum/nes-react";
 
 const ClockIcon = () => {
   const { state } = useGameContext();
@@ -23,6 +24,23 @@ const ClockIcon = () => {
         fill="black"
       />
     </svg>
+  );
+};
+
+const Lives = () => {
+  const { state } = useGameContext();
+  let livesLeft = state.lives;
+  let livesLost = 5 - livesLeft;
+
+  return (
+    <span className="lives">
+      {[...Array(livesLeft)].map((item, index) => {
+        return <Icon key={index} type="heart" />;
+      })}
+      {[...Array(livesLost)].map((item, index) => {
+        return <Icon key={index} type="heart" className="is-empty" />;
+      })}
+    </span>
   );
 };
 
@@ -54,6 +72,7 @@ const Header = () => {
               : state.timeRemaining}
           </span>
         </span>
+        <Lives />
       </div>
       <div className="header-menu">
         <button>Sound off</button>
