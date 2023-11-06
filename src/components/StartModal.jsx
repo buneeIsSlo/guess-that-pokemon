@@ -22,18 +22,14 @@ const StartModal = () => {
         <Badge label="Rules" type="primary" />
         <List
           items={[
-            "Check out the Pokémon pic.",
+            "Identify the Pokémon.",
             "Pick the right Pokémon from the 4 options.",
             "You've got just 60 seconds, so hustle!",
-            "Be spot on with your choice to get a high score!",
-          ]}
-        />
-        <Badge label="Lives" type="primary" />
-        <List
-          items={[
             "You start with 5 lives, but each wrong answer costs one. Choose wisely!",
           ]}
         />
+        <Badge label="Tips" type="primary" />
+        <List items={["Be spot on with your choice to get a high score!"]} />
         <div className="start-modal-play">
           <Button onClick={onClickPlay} type="primary">
             PLAY GAME
