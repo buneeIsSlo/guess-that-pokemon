@@ -1,22 +1,31 @@
 #header {
   display: grid;
-  grid-template-areas: 
-  "logo menu"
-  "stats stats";
+  grid-template:
+    "logo _ _ menu"
+    "hud hud hud hud"
+    / 1fr 1fr 1fr 1fr;
+  row-gap: 1rem;
+  outline: 2px solid blue;
 }
 
 h1 {
   grid-area: logo;
+  font-size:1em;
+  line-height: 1.2;
+  outline: 8px double red;
 }
 
 .header-menu {
   grid-area: menu;
+  display: flex;
+  justify-content: flex-end;
 }
 
 .header-stats {
   display: flex;
-  gap: 1rem;
-  grid-area: stats;
+  gap: 1rem;  
+  grid-area: hud;
+  transform: scale(0.7);
 }
 
 .timer {
@@ -30,7 +39,6 @@ h1 {
 }
 
 .lives {
-  /* background-color: #fff; */
   display: flex;
   gap: 0.5rem;
 }
@@ -45,6 +53,17 @@ h1 {
   justify-content: space-between;
   align-items: center;
 }
+
+.header-stats {
+  transform: scale(1);
+}
+}
+
+@media (min-width: 1024px) {
+  h1 {
+    font-size: 1.5em;
+    line-height: 1.2;
+  }
 }
 
 @keyframes spin {

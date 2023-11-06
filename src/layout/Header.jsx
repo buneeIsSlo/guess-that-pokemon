@@ -1,7 +1,7 @@
 import "./css/header.css";
 import { useEffect, useRef } from "react";
 import useGameContext from "../hooks/useGameContext";
-import { Icon } from "@kylum/nes-react";
+import { Icon, Button } from "@kylum/nes-react";
 
 const ClockIcon = () => {
   const { state } = useGameContext();
@@ -9,8 +9,8 @@ const ClockIcon = () => {
   return (
     <svg
       className={state.isPlaying ? "animate-spin" : ""}
-      width="24"
-      height="24"
+      width="32"
+      height="32"
       viewBox="0 0 24 24"
       fill="none"
       xmlns="http://www.w3.org/2000/svg"
@@ -34,11 +34,11 @@ const Lives = () => {
 
   return (
     <span className="lives">
-      {[...Array(livesLeft)].map((item, index) => {
-        return <Icon key={index} type="heart" />;
-      })}
       {[...Array(livesLost)].map((item, index) => {
         return <Icon key={index} type="heart" className="is-empty" />;
+      })}
+      {[...Array(livesLeft)].map((item, index) => {
+        return <Icon key={index} type="heart" />;
       })}
     </span>
   );
@@ -62,8 +62,17 @@ const Header = () => {
 
   return (
     <header id="header">
-      <h1>GTP</h1>
+      <h1>
+        <a href="/">
+          Guess
+          <br />
+          that
+          <br />
+          Pokemon
+        </a>
+      </h1>
       <div className="header-stats">
+        <Lives />
         <span className="timer">
           <ClockIcon />
           <span>
@@ -72,10 +81,11 @@ const Header = () => {
               : state.timeRemaining}
           </span>
         </span>
-        <Lives />
       </div>
       <div className="header-menu">
-        <button>Sound off</button>
+        <Button>
+          <ClockIcon />
+        </Button>
       </div>
     </header>
   );
