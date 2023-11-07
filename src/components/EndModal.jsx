@@ -1,0 +1,36 @@
+import "./css/end.css";
+import useGameContext from "../hooks/useGameContext";
+import { Container, Badge, Icon, Button } from "@kylum/nes-react";
+
+const EndModal = () => {
+  const { state, dispatch } = useGameContext();
+
+  const onClickPlay = () => {
+    dispatch({ type: "startGame" });
+  };
+
+  return (
+    <div className="end-modal">
+      <Container isRounded>
+        <h2>Time's Up!</h2>
+        <Badge type="warning" label="Score" />
+        <div className="end-modal-score">
+          <p>{state.mainScore}</p>
+          <Icon type="star" />
+        </div>
+        <Badge type="warning" label="High Score" />
+        <div className="end-modal-score">
+          <p>100</p>
+          <Icon type="star" />
+        </div>
+        <div className="end-modal-play">
+          <Button onClick={onClickPlay} type="primary">
+            PLAY AGAIN
+          </Button>
+        </div>
+      </Container>
+    </div>
+  );
+};
+
+export default EndModal;

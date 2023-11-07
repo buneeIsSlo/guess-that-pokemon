@@ -6,6 +6,7 @@ import { POKEMONS_RANGE, MAX_POKEMONS } from "../utils/constants";
 import Question from "../components/Question";
 import Loader from "../components/Loader";
 import StartModal from "../components/StartModal";
+import EndModal from "../components/EndModal";
 
 enableMapSet();
 
@@ -69,7 +70,7 @@ const Main = () => {
         />
       )}
       {(state.timeRemaining <= 0 || state.lives <= 0) && !state.isPlaying && (
-        <h2>Game Over</h2>
+        <EndModal />
       )}
     </main>
   );

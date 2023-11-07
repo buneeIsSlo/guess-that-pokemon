@@ -1,0 +1,52 @@
+.end-modal {
+    max-width: 500px;
+    display: grid;
+    place-content: center;
+}
+
+.end-modal .nes-container {
+    min-width: 300px;
+    display: flex;
+    flex-direction: column;
+    gap: 1em;
+}
+
+.end-modal h2 {
+    text-align: center;
+    padding-bottom: 1em;
+}
+
+.end-modal .nes-badge {
+    margin-inline: auto;
+}
+
+.end-modal-score {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 0.5em;
+    padding-block: 0.3rem;
+    transform: scale(0.8);
+}
+
+.end-modal-score p {
+    margin: 0;
+    font-size: 1.6em;
+}
+
+.end-modal-play {
+    display: flex;
+    justify-content: center;
+    margin-block: 1rem;
+}
+
+@media (min-width: 1024px) {
+    .end-modal {
+        max-width: 600px;
+    }
+
+    .end-modal .nes-container {
+        min-width: 500px;
+        gap: 1em;
+    }
+}
