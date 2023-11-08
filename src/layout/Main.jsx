@@ -60,7 +60,7 @@ const Main = () => {
 
   return (
     <main id="main">
-      {!state.doneFetching && <Loader />}
+      {/* {!state.doneFetching && <Loader />} */}
       {state.doneFetching && !state.currentQuestion && <StartModal />}
       {state.currentQuestion && state.isPlaying && (
         <Question

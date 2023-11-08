@@ -12,7 +12,8 @@ const EndModal = () => {
   return (
     <div className="end-modal">
       <Container isRounded>
-        <h2>Time's Up!</h2>
+        {state.timeRemaining <= 0 && <h2>Time's Up!</h2>}
+        {state.lives <= 0 && <h2>Zero Lives!</h2>}
         <Badge type="warning" label="Score" />
         <div className="end-modal-score">
           <p>{state.mainScore}</p>
