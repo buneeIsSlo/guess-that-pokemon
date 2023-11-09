@@ -8,12 +8,24 @@
     display: grid;
     place-content: center;
     margin-block: 1rem;
+    position: relative;
 }
 
 .question-sprite img {
     width: 250px;
     height: 250px;
     image-rendering: pixelated;
+}
+
+.question-sprite:before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background-image: url("/src/assets/images/blast-backdrop.png");
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: contain;
+    z-index: -1;
 }
 
 .question-options {
@@ -60,7 +72,6 @@
 }
 
 @media (min-width: 1024px) {
-
     .question-sprite {
         margin-block: 1rem;
     }

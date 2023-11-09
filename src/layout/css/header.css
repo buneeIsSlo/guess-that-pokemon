@@ -5,14 +5,28 @@
     "hud hud hud hud"
     / 1fr 1fr 1fr 1fr;
   row-gap: 1rem;
-  outline: 2px solid blue;
 }
 
 h1 {
   grid-area: logo;
-  font-size:1em;
+  font-size: 1em;
   line-height: 1.2;
-  outline: 8px double red;
+  position: relative;
+}
+
+h1:after {
+  content: "";
+  position: absolute;
+  top: 0.4em;
+  right: -0.4em;
+  width: 50%;
+  height: 50%;
+  background-image: url("/src/assets/images/pokeall.gif");
+  background-repeat: no-repeat;
+  background-size: contain;
+  background-position: center;
+  transform: rotate(-10deg);
+  /* outline: 2px solid blue; */
 }
 
 .header-menu {
@@ -23,7 +37,7 @@ h1 {
 
 .header-stats {
   display: flex;
-  gap: 1rem;  
+  gap: 1rem;
   grid-area: hud;
   transform: scale(0.7);
 }
@@ -48,18 +62,29 @@ h1 {
 }
 
 @media (min-width: 580px) {
-  #header {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-}
+  h1:after {
+    top: 0.6em;
+    right: -0.5em;
+  }
 
-.header-stats {
-  transform: scale(1);
-}
+  #header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  .header-stats {
+    transform: scale(1);
+  }
 }
 
 @media (min-width: 1024px) {
+  #header {
+    width: 80%;
+    margin-inline: auto;
+    /* outline: 2px solid red; */
+  }
+
   h1 {
     font-size: 1.5em;
     line-height: 1.2;
