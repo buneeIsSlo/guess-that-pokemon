@@ -1,0 +1,44 @@
+.info-popup {
+    position: absolute;
+    bottom: -5em;
+    right: 1em;
+}
+
+#info menu {
+    display: none;
+}
+
+#info .content {
+    max-width: 250px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 1em;
+}
+
+.credit-text {
+    text-align: center;
+}
+
+#star-please {
+    display: flex;
+    align-items: center;
+    gap: 0.5em;
+    margin-block: 1em;
+}
+
+@media (min-width: 580px) {
+    #info .content {
+        max-width: 400px;
+    }
+}
+
+@media (min-width: 1024px) {
+    .info-popup {
+        bottom: 1em;
+    }
+
+    #info .content {
+        max-width: 650px;
+    }
+}
