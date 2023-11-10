@@ -29,6 +29,18 @@ const Main = () => {
   };
 
   useEffect(() => {
+    const highscore = localStorage.getItem("highscore");
+    dispatch({ type: "setHighScore", value: highscore });
+  }, []);
+
+  useEffect(() => {
+    if (state.mainScore > state.highScore) {
+      localStorage.setItem("highscore", state.mainScore);
+      dispatch({ type: "setHighScore", value: state.mainScore });
+    }
+  }, [state.mainScore]);
+
+  useEffect(() => {
     const fetchPokemons = async () => {
       try {
         const randomUniqueNums = getRandomNums();

@@ -1,6 +1,7 @@
 import "./css/end.css";
 import useGameContext from "../hooks/useGameContext";
 import { Container, Badge, Icon, Button } from "@kylum/nes-react";
+import { useEffect } from "react";
 
 const EndModal = () => {
   const { state, dispatch } = useGameContext();
@@ -21,7 +22,7 @@ const EndModal = () => {
         </div>
         <Badge type="warning" label="High Score" />
         <div className="end-modal-score">
-          <p>100</p>
+          <p>{state.highScore === 0 ? state.mainScore : state.highScore}</p>
           <Icon type="star" />
         </div>
         <div className="end-modal-play">

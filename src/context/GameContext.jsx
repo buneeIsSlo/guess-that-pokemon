@@ -32,6 +32,9 @@ const reducer = (draft, action) => {
         draft.roundScore -= 10;
       }
       break;
+    case "setHighScore":
+      draft.highScore = action.value ? action.value : draft.mainScore;
+      break;
     case "decreaseTime":
       if (draft.timeRemaining <= 0) {
         draft.isPlaying = false;

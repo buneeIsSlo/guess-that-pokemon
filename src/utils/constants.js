@@ -13,13 +13,14 @@ const INITIAL_STATE = {
   lives: MAX_LIVES,
   roundScore: ROUND_SCORE,
   mainScore: 0,
+  highScore: 0,
   timeRemaining: TOTAL_TIME,
 };
 
 export {
-    MAX_LIVES,
-    POKEMONS_RANGE,
-    MAX_POKEMONS,
-    ROUND_SCORE,
-    INITIAL_STATE
+  MAX_LIVES,
+  POKEMONS_RANGE,
+  MAX_POKEMONS,
+  ROUND_SCORE,
+  INITIAL_STATE
 };
