@@ -10,6 +10,7 @@ const INITIAL_STATE = {
   pokemonData: [],
   currentQuestion: null,
   isPlaying: false,
+  isRePlaying: false,
   lives: MAX_LIVES,
   roundScore: ROUND_SCORE,
   mainScore: 0,
@@ -22,5 +23,6 @@ export {
   POKEMONS_RANGE,
   MAX_POKEMONS,
   ROUND_SCORE,
-  INITIAL_STATE
+  INITIAL_STATE,
+  TOTAL_TIME
 };

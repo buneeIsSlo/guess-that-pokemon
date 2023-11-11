@@ -1,13 +1,12 @@
 import "./css/end.css";
 import useGameContext from "../hooks/useGameContext";
 import { Container, Badge, Icon, Button } from "@kylum/nes-react";
-import { useEffect } from "react";
 
 const EndModal = () => {
   const { state, dispatch } = useGameContext();
 
   const onClickPlay = () => {
-    dispatch({ type: "startGame" });
+    dispatch({ type: "resetState" });
   };
 
   return (

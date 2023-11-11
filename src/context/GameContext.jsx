@@ -1,6 +1,11 @@
 import { createContext } from "react";
 import { useImmerReducer } from "use-immer";
-import { INITIAL_STATE, ROUND_SCORE } from "../utils/constants";
+import {
+  INITIAL_STATE,
+  MAX_LIVES,
+  ROUND_SCORE,
+  TOTAL_TIME,
+} from "../utils/constants";
 
 const reducer = (draft, action) => {
   switch (action.type) {
@@ -13,6 +18,11 @@ const reducer = (draft, action) => {
     case "startGame":
       draft.isPlaying = true;
       draft.currentQuestion = generateQuestion();
+      break;
+    case "reStartGame":
+      draft.isPlaying = true;
+      draft.currentQuestion = generateQuestion();
+      draft.isRePlaying = false;
       break;
     case "addFetched":
       draft.fetchedNums.add(action.value);
@@ -41,6 +51,19 @@ const reducer = (draft, action) => {
       } else {
         draft.timeRemaining--;
       }
+      break;
+    case "resetState":
+      draft.isPlaying = false;
+      draft.doneFetching = false;
+      draft.fetchCount += 1;
+      draft.roundScore = ROUND_SCORE;
+      draft.mainScore = 0;
+      draft.lives = MAX_LIVES;
+      draft.timeRemaining = TOTAL_TIME;
+      draft.currentQuestion = null;
+      draft.pokemonData = [];
+      draft.fetchedNums = new Set();
+      draft.isRePlaying = true;
       break;
     case "logState":
       console.log(draft.fetchedNums);

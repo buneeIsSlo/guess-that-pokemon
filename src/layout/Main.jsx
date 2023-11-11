@@ -64,6 +64,9 @@ const Main = () => {
         if (!state.isPlaying) {
           dispatch({ type: "doneFetching" });
         }
+        if (state.isRePlaying) {
+          dispatch({ type: "reStartGame" });
+        }
       }
     };
 
@@ -73,7 +76,9 @@ const Main = () => {
   return (
     <main id="main">
       {!state.doneFetching && <Loader />}
-      {state.doneFetching && !state.currentQuestion && <StartModal />}
+      {state.doneFetching && !state.currentQuestion && !state.isRePlaying && (
+        <StartModal />
+      )}
       {state.currentQuestion && state.isPlaying && (
         <Question
           sprite={state.currentQuestion.sprite}
