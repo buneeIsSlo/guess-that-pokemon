@@ -1,7 +1,9 @@
 import "./css/header.css";
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
+import useSound from "use-sound";
 import useGameContext from "../hooks/useGameContext";
 import { Icon, Button } from "@kylum/nes-react";
+import bgMusic from "../assets/sounds/happy-8bit.mp3";
 
 const ClockIcon = () => {
   const { state } = useGameContext();
@@ -47,6 +49,19 @@ const Lives = () => {
 const Header = () => {
   const { state, dispatch } = useGameContext();
   const timer = useRef(null);
+  const [isPlayingMusic, setIsPlayingMusic] = useState(false);
+  const [play, { stop, sound }] = useSound(bgMusic, { interrupt: true });
+
+  const handleClick = () => {
+    setIsPlayingMusic(!isPlayingMusic);
+    if (isPlayingMusic) {
+      stop();
+    } else {
+      play();
+      sound.loop = true;
+      sound.volume = 0.3;
+    }
+  };
 
   useEffect(() => {
     if (state.isPlaying) {
@@ -83,7 +98,7 @@ const Header = () => {
         </span>
       </div>
       <div className="header-menu">
-        <Button>
+        <Button onClick={handleClick}>
           <ClockIcon />
         </Button>
       </div>
