@@ -16,6 +16,7 @@ const INITIAL_STATE = {
   mainScore: 0,
   highScore: 0,
   timeRemaining: TOTAL_TIME,
+  isMusicPlaying: false,
 };
 
 export {

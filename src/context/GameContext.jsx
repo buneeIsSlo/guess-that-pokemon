@@ -65,6 +65,8 @@ const reducer = (draft, action) => {
       draft.fetchedNums = new Set();
       draft.isRePlaying = true;
       break;
+    case "musicStatus":
+      draft.isMusicPlaying = action.value;
     case "logState":
       console.log(draft.fetchedNums);
       break;

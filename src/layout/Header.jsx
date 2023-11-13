@@ -4,6 +4,8 @@ import useSound from "use-sound";
 import useGameContext from "../hooks/useGameContext";
 import { Icon, Button } from "@kylum/nes-react";
 import bgMusic from "../assets/sounds/happy-8bit.mp3";
+import soundOnIcon from "../assets/images/sound-on.svg";
+import soundOffIcon from "../assets/images/sound-off.svg";
 
 const ClockIcon = () => {
   const { state } = useGameContext();
@@ -49,18 +51,21 @@ const Lives = () => {
 const Header = () => {
   const { state, dispatch } = useGameContext();
   const timer = useRef(null);
-  const [isPlayingMusic, setIsPlayingMusic] = useState(false);
-  const [play, { stop, sound }] = useSound(bgMusic, { interrupt: true });
+  const [play, { sound }] = useSound(bgMusic, { interrupt: true });
+
+  const handleMusic = () => {
+    if (state.isMusicPlaying) {
+      sound.stop();
+    } else {
+      sound._loop = true;
+      const musicId = sound.play();
+      sound.fade(0, 1, 5000, musicId);
+    }
+  };
 
   const handleClick = () => {
-    setIsPlayingMusic(!isPlayingMusic);
-    if (isPlayingMusic) {
-      stop();
-    } else {
-      play();
-      sound.loop = true;
-      sound.volume = 0.3;
-    }
+    handleMusic();
+    dispatch({ type: "musicStatus", value: !state.isMusicPlaying });
   };
 
   useEffect(() => {
@@ -99,7 +104,7 @@ const Header = () => {
       </div>
       <div className="header-menu">
         <Button onClick={handleClick}>
-          <ClockIcon />
+          <img src={state.isMusicPlaying ? soundOnIcon : soundOffIcon} alt="" />
         </Button>
       </div>
     </header>
