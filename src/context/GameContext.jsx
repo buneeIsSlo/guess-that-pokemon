@@ -30,7 +30,6 @@ const reducer = (draft, action) => {
     case "guessedAnswer":
       if (action.value) {
         draft.mainScore += draft.roundScore;
-        // console.log({round: draft.roundScore, main: draft.mainScore});
         draft.roundScore = ROUND_SCORE;
         draft.currentQuestion = generateQuestion();
       } else {
@@ -67,6 +66,10 @@ const reducer = (draft, action) => {
       break;
     case "musicStatus":
       draft.isMusicPlaying = action.value;
+      break;
+    case "animatePoints":
+      draft.animatePoints = draft.roundScore;
+      break;
     case "logState":
       console.log(draft.fetchedNums);
       break;
@@ -83,7 +86,7 @@ const reducer = (draft, action) => {
 
     const tempRandom = Math.floor(Math.random() * 4);
     const fourOptions = draft.pokemonData.slice(0, 4);
-    console.log(fourOptions);
+    // console.log(fourOptions);
     return {
       sprite: fourOptions[tempRandom].sprite,
       answer: fourOptions[tempRandom].name,

@@ -1,6 +1,29 @@
 .question {
     margin-inline: auto;
     align-self: center;
+    position: relative;
+}
+
+.question-points {
+    position: absolute;
+    top: 30%;
+    left: 45%;
+    outline: 2px solid red;
+    z-index: 1;
+    animation: fadeUp 0.3s ease-in forwards;
+}
+
+.question-points.show {
+    display: block;
+}
+
+.question-points.hide {
+    display: none;
+}
+
+.question-points span {
+    font-size: 2em;
+    color: limegreen;
 }
 
 .question-sprite {
@@ -79,5 +102,17 @@
     .question-sprite img {
         width: 400px;
         height: 400px;
+    }
+}
+
+@keyframes fadeUp {
+    from {
+        opacity: 1;
+        transform: translateY(0);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(-250px);
     }
 }
