@@ -57,6 +57,7 @@ const reducer = (draft, action) => {
       draft.fetchCount += 1;
       draft.roundScore = ROUND_SCORE;
       draft.mainScore = 0;
+      draft.animatePoints = 0;
       draft.lives = MAX_LIVES;
       draft.timeRemaining = TOTAL_TIME;
       draft.currentQuestion = null;
@@ -69,6 +70,7 @@ const reducer = (draft, action) => {
       break;
     case "animatePoints":
       draft.animatePoints = draft.roundScore;
+      draft.animatePointsCount += 1;
       break;
     case "logState":
       console.log(draft.fetchedNums);

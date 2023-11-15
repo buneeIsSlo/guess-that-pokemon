@@ -18,6 +18,7 @@ const INITIAL_STATE = {
   timeRemaining: TOTAL_TIME,
   isMusicPlaying: false,
   animatePoints: 0,
+  animatePointsCount: 0,
 };
 
 export {

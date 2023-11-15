@@ -44,7 +44,7 @@ const Question = ({ sprite, options, answer }) => {
     if (state.animatePoints !== 0) {
       setPointsAnimation(!pointsAnimation);
     }
-  }, [state.animatePoints]);
+  }, [state.animatePointsCount]);
 
   return (
     <div className="question">
@@ -52,8 +52,9 @@ const Question = ({ sprite, options, answer }) => {
         className={`question-points`}
         style={{ display: pointsAnimation ? "block" : "none" }}
         onAnimationEnd={handleAnimationEnd}
+        aria-hidden="true"
       >
-        <span>{state.animatePoints}</span>
+        <span>{`+${state.animatePoints}`}</span>
       </div>
       <div className="question-sprite">
         <img src={sprite} alt="pokemon" />

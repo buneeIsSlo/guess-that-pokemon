@@ -7,18 +7,9 @@
 .question-points {
     position: absolute;
     top: 30%;
-    left: 45%;
-    outline: 2px solid red;
+    left: 35%;
     z-index: 1;
-    animation: fadeUp 0.3s ease-in forwards;
-}
-
-.question-points.show {
-    display: block;
-}
-
-.question-points.hide {
-    display: none;
+    animation: fadeUp 0.5s forwards cubic-bezier(0.25, 1, 0.5, 1);
 }
 
 .question-points span {
@@ -68,6 +59,10 @@
         max-width: 780px;
     }
 
+    .question-points {
+        left: 45%;
+    }
+
     .question-options {
         display: grid;
         grid-template-rows: repeat(2, 1fr);
@@ -106,13 +101,18 @@
 }
 
 @keyframes fadeUp {
-    from {
+    0% {
         opacity: 1;
         transform: translateY(0);
     }
 
-    to {
+    70% {
         opacity: 1;
-        transform: translateY(-250px);
+        transform: translateY(-200px);
+    }
+
+    100% {
+        opacity: 0;
+        transform: translateY(-200px);
     }
 }
