@@ -102,7 +102,7 @@ const Header = () => {
           </span>
         </span>
       </div>
-      <div className="header-menu">
+      <div className="header-music">
         <Button onClick={handleClick}>
           <img src={state.isMusicPlaying ? soundOnIcon : soundOffIcon} alt="" />
         </Button>
