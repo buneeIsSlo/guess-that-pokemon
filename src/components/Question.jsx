@@ -1,9 +1,9 @@
 import "./css/question.css";
-import { useEffect, useState } from "react";
+import { useEffect, useState, memo } from "react";
 import useGameContext from "../hooks/useGameContext";
 import { Button } from "@kylum/nes-react";
 
-const Option = ({ optName, answer }) => {
+const Option = memo(({ optName, answer }) => {
   const { dispatch } = useGameContext();
   const [optionStatus, setOptionStatus] = useState(null);
   const [alreadyClicked, setAlreadyClicked] = useState(false);
@@ -30,7 +30,7 @@ const Option = ({ optName, answer }) => {
       {optName}
     </Button>
   );
-};
+});
 
 const Question = ({ sprite, options, answer }) => {
   const { state } = useGameContext();

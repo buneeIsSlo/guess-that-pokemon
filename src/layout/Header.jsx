@@ -1,5 +1,6 @@
 import "./css/header.css";
-import { useEffect, useRef, useState } from "react";
+import { memo } from "react";
+import { useEffect, useRef } from "react";
 import useSound from "use-sound";
 import useGameContext from "../hooks/useGameContext";
 import { Icon, Button } from "@kylum/nes-react";
@@ -7,7 +8,7 @@ import bgMusic from "../assets/sounds/happy-8bit.mp3";
 import soundOnIcon from "../assets/images/sound-on.svg";
 import soundOffIcon from "../assets/images/sound-off.svg";
 
-const ClockIcon = () => {
+const ClockIcon = memo(() => {
   const { state } = useGameContext();
 
   return (
@@ -29,7 +30,7 @@ const ClockIcon = () => {
       />
     </svg>
   );
-};
+});
 
 const Lives = () => {
   const { state } = useGameContext();
@@ -48,7 +49,13 @@ const Lives = () => {
   );
 };
 
-const Header = () => {
+const Timer = memo(({ timeRemaining }) => {
+  return (
+    <span>{timeRemaining < 10 ? "0" + timeRemaining : timeRemaining}</span>
+  );
+});
+
+const Header = memo(() => {
   const { state, dispatch } = useGameContext();
   const timer = useRef(null);
   const [play, { sound }] = useSound(bgMusic, { interrupt: true });
@@ -95,11 +102,7 @@ const Header = () => {
         <Lives />
         <span className="timer">
           <ClockIcon />
-          <span>
-            {state.timeRemaining < 10
-              ? "0" + state.timeRemaining
-              : state.timeRemaining}
-          </span>
+          <Timer timeRemaining={state.timeRemaining} />
         </span>
       </div>
       <div className="header-music">
@@ -109,6 +112,6 @@ const Header = () => {
       </div>
     </header>
   );
-};
+});
 
 export default Header;
