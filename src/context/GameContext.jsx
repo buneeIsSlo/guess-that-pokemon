@@ -73,9 +73,6 @@ const reducer = (draft, action) => {
       draft.animatePoints = draft.roundScore;
       draft.animatePointsCount += 1;
       break;
-    case "logState":
-      console.log(draft.fetchedNums);
-      break;
   }
 
   function generateQuestion() {
@@ -89,7 +86,6 @@ const reducer = (draft, action) => {
 
     const tempRandom = Math.floor(Math.random() * 4);
     const fourOptions = draft.pokemonData.slice(0, 4);
-    // console.log(fourOptions);
     return {
       sprite: fourOptions[tempRandom].sprite,
       answer: fourOptions[tempRandom].name,

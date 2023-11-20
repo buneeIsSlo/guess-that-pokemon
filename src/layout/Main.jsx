@@ -39,7 +39,6 @@ const fetchPokemons = async (state, dispatch) => {
   } catch (error) {
     console.error("Error fetching pokemons:", error);
   } finally {
-    console.log("Finished making requests");
     if (!state.isPlaying) {
       dispatch({ type: "doneFetching" });
     }
