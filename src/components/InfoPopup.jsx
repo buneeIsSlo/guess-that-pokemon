@@ -8,21 +8,33 @@ const InfoPopup = () => {
         <div className="content">
           <h2>Oh, Hi there!</h2>
           <p className="credit-text">
-            This project wouldn't be possible without{" "}
-            <a href="https://nostalgic-css.github.io/NES.css/" target="_blank">
+            This project wouldn&apos;t be possible without{" "}
+            <a
+              href="https://nostalgic-css.github.io/NES.css/"
+              target="_blank"
+              rel="noreferrer"
+            >
               NES.css
             </a>
             .
           </p>
           <p className="credit-text">
             Components by:{" "}
-            <a href="https://github.com/HiKaylum/nes-react" target="_blank">
+            <a
+              href="https://github.com/HiKaylum/nes-react"
+              target="_blank"
+              rel="noreferrer"
+            >
               HiKaylum
             </a>
           </p>
           <p className="credit-text">
             Game coded by:{" "}
-            <a href="https://github.com/buneeIsSlo" target="_blank">
+            <a
+              href="https://github.com/buneeIsSlo"
+              target="_blank"
+              rel="noreferrer"
+            >
               bunee
             </a>
           </p>

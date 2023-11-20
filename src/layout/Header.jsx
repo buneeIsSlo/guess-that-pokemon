@@ -31,6 +31,7 @@ const ClockIcon = memo(() => {
     </svg>
   );
 });
+ClockIcon.displayName = "ClockIcon";
 
 const Lives = () => {
   const { state } = useGameContext();
@@ -54,6 +55,7 @@ const Timer = memo(({ timeRemaining }) => {
     <span>{timeRemaining < 10 ? "0" + timeRemaining : timeRemaining}</span>
   );
 });
+Timer.displayName = "Timer";
 
 const Header = memo(() => {
   const { state, dispatch } = useGameContext();
@@ -114,4 +116,5 @@ const Header = memo(() => {
   );
 });
 
+Header.displayName = "Header";
 export default Header;

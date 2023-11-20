@@ -11,6 +11,7 @@ const reducer = (draft, action) => {
   switch (action.type) {
     case "doneFetching":
       draft.doneFetching = true;
+      break;
     case "addPokemon":
       if (action.value === undefined) return;
       draft.pokemonData = [...draft.pokemonData, action.value];

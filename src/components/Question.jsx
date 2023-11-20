@@ -31,6 +31,7 @@ const Option = memo(({ optName, answer }) => {
     </Button>
   );
 });
+Option.displayName = "Option";
 
 const Question = ({ sprite, options, answer }) => {
   const { state } = useGameContext();
