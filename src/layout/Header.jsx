@@ -97,7 +97,7 @@ const Header = memo(() => {
           <br />
           that
           <br />
-          Pokemon
+          Pokémon
         </a>
       </h1>
       <div className="header-stats">
