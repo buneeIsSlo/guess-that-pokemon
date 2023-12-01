@@ -27,15 +27,14 @@ const getRandomNums = (fetchedNums, dispatch) => {
 const fetchPokemons = async (state, dispatch) => {
   try {
     const randomUniqueNums = getRandomNums(state.fetchedNums, dispatch);
-    for (const num of randomUniqueNums) {
+    const pokemonPromises = randomUniqueNums.map(async (num) => {
       const response = await fetch(`https://pokeapi.co/api/v2/pokemon/${num}`);
       const data = await response.json();
       const { name, sprites } = data;
-      dispatch({
-        type: "addPokemon",
-        value: { name, sprite: sprites.front_default },
-      });
-    }
+      return { name, sprite: sprites.front_default };
+    });
+    const pokemons = await Promise.all(pokemonPromises);
+    dispatch({ type: "addPokemons", value: pokemons });
   } catch (error) {
     console.error("Error fetching pokemons:", error);
   } finally {
