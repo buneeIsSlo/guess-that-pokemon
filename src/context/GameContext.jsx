@@ -12,9 +12,8 @@ const reducer = (draft, action) => {
     case "doneFetching":
       draft.doneFetching = true;
       break;
-    case "addPokemon":
-      if (action.value === undefined) return;
-      draft.pokemonData = [...draft.pokemonData, action.value];
+    case "addPokemons":
+      draft.pokemonData = [...draft.pokemonData, ...action.value];
       break;
     case "startGame":
       draft.isPlaying = true;
